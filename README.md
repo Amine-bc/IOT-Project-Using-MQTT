@@ -1,2 +1,2 @@
 # IOT-Project-Using-MQTT
-A summer internship IOT project with Sirius-Net an Algerian technology company created in 2008
+An IOT project developed during a summer internship at Sirius-Net an Algerian technology company created in 2008
