@@ -49,8 +49,7 @@ client.connect("48f12ffbd3804fc1b5f9c592bfc5568e.s2.eu.hivemq.cloud", 8883)
 client.on_subscribe = on_subscribe
 client.on_message = on_message
 client.on_publish = on_publish
-
-# subscribe to all topics of encyclopedia by using the wildcard "#"
+# subscribe to all topics by using the wildcard "#"
 client.subscribe("#", qos=1)
 # The lines of code bellow aims to send the messages we want with non-stop 
 while(1==1):
