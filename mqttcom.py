@@ -13,10 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import time
+import mysql.connector
 import paho.mqtt.client as paho
 from paho import mqtt
+from datetime import datetime
 
+
+mydb = mysql.connector.connect(host="tiwsal.dz", user="user2022stg01", passwd="Nz2ck99$")
+cursor = mydb.cursor()
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
     print("CONNACK received with code %s." % rc)
@@ -53,11 +57,25 @@ client.on_publish = on_publish
 client.subscribe("#", qos=1)
 # The lines of code bellow aims to send the messages we want with non-stop 
 while(1==1):
-    mes=input('What do you want to publish ? ')
-    topi=input('which topic /*the root is testtopic*/ ')
+    content_msg=input('What do you want to publish ? ')
+    obs_msg=input('which topic /*the root is testtopic*/ ')
     #a single publish, this can also be done in loops, etc.
-    client.publish(topi, payload=mes, qos=1)
-
+    client.publish(obs_msg, payload=content_msg, qos=1)
+    #Here save to the data base 
+    datetime_msg = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    datap = [(content_msg, obs_msg, datetime_msg)]
+    query ="insert into mqtt_sirius2022stg01.03amineb(content_msg, obs_msg, datetime_msg) values(%s, %s, %s) "
+    #insert into mqtt_sirius2022stg01.01fethi(content_msg, obs_msg, datetime_msg) values(%s, %s, %s)
+    #print(datetime_msg)
+    cursor.executemany(query,datap)
+    mydb.commit()
+    #------------------------------
+    #Here we print the DB content
+    cursor.execute("select * from mqtt_sirius2022stg01.03amineb")
+    result = cursor.fetchall()
+    for data in result:
+        print(data)
+        
 # loop_forever for simplicity, here you need to stop the loop manually
 # you can also use loop_start and loop_stop
 client.loop_forever()
