@@ -54,28 +54,42 @@ client.on_subscribe = on_subscribe
 client.on_message = on_message
 client.on_publish = on_publish
 # subscribe to all topics by using the wildcard "#"
-client.subscribe("#", qos=1)
+while 1 == 1:
+    choice = input("Publish:1 or Subscribe:2 >>: ")
+    stop = input("enter EXIT if you want to stop subscribe OR any key to continue...")
+    if choice == 2 :
+        while 1 == 1 :
+            client.subscribe("#", qos=1)
+            if stop == "EXIT":
+                break
 # The lines of code bellow aims to send the messages we want with non-stop 
-while(1==1):
-    content_msg=input('What do you want to publish ? ')
-    obs_msg=input('which topic /*the root is testtopic*/ ')
-    #a single publish, this can also be done in loops, etc.
-    client.publish(obs_msg, payload=content_msg, qos=1)
-    #Here save to the data base 
-    datetime_msg = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    datap = [(content_msg, obs_msg, datetime_msg)]
-    query ="insert into mqtt_sirius2022stg01.03amineb(content_msg, obs_msg, datetime_msg) values(%s, %s, %s) "
-    #insert into mqtt_sirius2022stg01.01fethi(content_msg, obs_msg, datetime_msg) values(%s, %s, %s)
-    #print(datetime_msg)
-    cursor.executemany(query,datap)
-    mydb.commit()
-    #------------------------------
-    #Here we print the DB content
-    cursor.execute("select * from mqtt_sirius2022stg01.03amineb")
-    result = cursor.fetchall()
-    for data in result:
-        print(data)
-        
+    else:
+        stop=""
+        while 1 == 1:
+            content_msg=input('What do you want to publish ? ')
+            obs_msg=input('which topic /*the root is testtopic*/ ')
+            #a single publish, this can also be done in loops, etc.
+            client.publish(obs_msg, payload=content_msg, qos=1)
+            #Here save to the data base
+            datetime_msg = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            datap = [(content_msg, obs_msg, datetime_msg)]
+            query ="insert into mqtt_sirius2022stg01.03amineb(content_msg, obs_msg, datetime_msg) values(%s, %s, %s) "
+            #insert into mqtt_sirius2022stg01.01fethi(content_msg, obs_msg, datetime_msg) values(%s, %s, %s)
+            #print(datetime_msg)
+            cursor.executemany(query,datap)
+            mydb.commit()
+            #------------------------------
+            #Here we print the DB content
+            cursor.execute("select * from mqtt_sirius2022stg01.03amineb")
+            result = cursor.fetchall()
+            stop = input("enter EXIT if you want to stop publish OR any key to continue...")
+            for data in result:
+                print(data)
+            if stop == "EXIT":
+                break
+        if stop == "EXIT":
+            stop = input("enter EXIT if you want to quit OR any key to continue...")
+
 # loop_forever for simplicity, here you need to stop the loop manually
 # you can also use loop_start and loop_stop
 client.loop_forever()
