@@ -19,7 +19,7 @@ from paho import mqtt
 from datetime import datetime
 
 
-mydb = mysql.connector.connect(host="tiwsal.dz", user="user2022stg01", passwd="Nz2ck99$")
+mydb = mysql.connector.connect(host="your_host_url", user="UserName", passwd="YourPassword")
 cursor = mydb.cursor()
 # setting callbacks for different events to see if it works, print the message etc.
 def on_connect(client, userdata, flags, rc, properties=None):
