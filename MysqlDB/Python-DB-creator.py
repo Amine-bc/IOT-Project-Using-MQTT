@@ -1,6 +1,6 @@
 import mysql.connector
 import json
-mydb = mysql.connector.connect(host="tiwsal.dz", user="user2022stg01", passwd="Nz2ck99$",database="mqtt_sirius2022stg01")
+mydb = mysql.connector.connect(host="#####", user="#####", passwd="#####",database="#####")
 cursor = mydb.cursor()
 #cursor.execute("Create database Aminbtest") // Create a database
 #cursor.execute("Create table tst(topic varchar(100), data int(10))") #// Create a table
